@@ -1,12 +1,13 @@
-const CACHE_NAME = 'sigft-v1';
+const CACHE_NAME = 'sigft-v2';
 
 const APP_ASSETS = [
-  './',
-  './manifest.webmanifest',
-  './sigft-icon-180.png',
-  './sigft-icon-192.png',
-  './sigft-icon-512.png',
-  './sigft-icon-maskable-512.png'
+  '/sigft-app/',
+  '/sigft-app/index.html',
+  '/sigft-app/manifest.webmanifest',
+  '/sigft-app/sigft-icon-180.png',
+  '/sigft-app/sigft-icon-192.png',
+  '/sigft-app/sigft-icon-512.png',
+  '/sigft-app/sigft-icon-maskable-512.png'
 ];
 
 self.addEventListener('install', event => {
@@ -39,6 +40,16 @@ self.addEventListener('fetch', event => {
 
   event.respondWith(
     fetch(event.request)
+      .then(response => {
+        const responseClone = response.clone();
+
+        caches.open(CACHE_NAME)
+          .then(cache => {
+            cache.put(event.request, responseClone);
+          });
+
+        return response;
+      })
       .catch(() => caches.match(event.request))
   );
 });
