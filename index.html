@@ -2,98 +2,39 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, viewport-fit=cover"
-  >
-
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>SIGFT 2.0</title>
-
   <meta name="theme-color" content="#123d5a">
   <meta name="application-name" content="SIGFT 2.0">
-
   <meta name="mobile-web-app-capable" content="yes">
-
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta
-    name="apple-mobile-web-app-status-bar-style"
-    content="black-translucent"
-  >
-  <meta
-    name="apple-mobile-web-app-title"
-    content="SIGFT"
-  >
-
-  <link
-  rel="manifest"
-  href="/sigft-app/manifest.webmanifest"
->
-
-  <link
-  rel="apple-touch-icon"
-  sizes="180x180"
-  href="/sigft-app/sigft-icon-180.png"
->
-
-  <link
-    rel="icon"
-    type="image/png"
-    sizes="192x192"
-    href="./sigft-icon-192.png"
-  >
-
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SIGFT">
+  <link rel="manifest" href="/sigft-app/manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="/sigft-app/sigft-icon-180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./sigft-icon-192.png">
   <style>
-    html,
-    body {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background: #f4f6f8;
-    }
-
-    body {
-      min-height: 100vh;
-      min-height: 100dvh;
-      font-family: Arial, sans-serif;
-    }
-
-    #sigftApp {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
-      background: #f4f6f8;
-    }
+    html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#0c1019}
+    body{min-height:100vh;min-height:100dvh;font-family:Arial,sans-serif}
+    #sigftApp{position:fixed;inset:0;width:100%;height:100%;border:0;background:#0c1019}
+    #connectionNotice{position:fixed;bottom:0;left:0;right:0;margin:0;padding:12px;background:#573d15;color:white;text-align:center;z-index:2;font-size:14px}
+    [hidden]{display:none!important}
   </style>
 </head>
-
 <body>
-
-  <iframe
-    id="sigftApp"
-    title="SIGFT 2.0"
-    src="https://script.google.com/macros/s/AKfycbznkZC2-hIfOj2uWBuI60XWcHihY_hTHKIyGPfJ7obEHY9B5NrC3wouxTlsFNBBosYCJA/exec"
-    allow="camera; microphone; clipboard-read; clipboard-write"
-  ></iframe>
-
+  <iframe id="sigftApp" title="SIGFT 2.0" src="https://script.google.com/macros/s/AKfycbzWAbnjtfYFkokNOC4Cl38hU690WlXs_2RCYOpIAT_F8sCiKn9AExDbwGKWcloPPEPL/exec" allow="camera; microphone; clipboard-read; clipboard-write"></iframe>
+  <p id="connectionNotice" role="status" hidden>Sem conexão. O SIGFT precisa de internet para consultar e salvar dados.</p>
   <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        navigator.serviceWorker
-          .register('./service-worker.js')
-          .catch(function (error) {
-            console.error(
-              'Erro ao registrar Service Worker:',
-              error
-            );
-          });
-      });
+    function updateConnectionNotice(){document.getElementById('connectionNotice').hidden=navigator.onLine;}
+    window.addEventListener('online',updateConnectionNotice);
+    window.addEventListener('offline',updateConnectionNotice);
+    updateConnectionNotice();
+    if('serviceWorker' in navigator){
+      // Não recarregar automaticamente: pode haver um rascunho em edição.
+      navigator.serviceWorker.register('./service-worker.js',{updateViaCache:'none'})
+        .then(function(registration){return registration.update();})
+        .catch(function(error){console.error('Falha ao atualizar o aplicativo:',error);});
     }
   </script>
-
 </body>
 </html>
