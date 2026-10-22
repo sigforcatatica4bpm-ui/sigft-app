@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sigft-shell-2026-10-12-v1';
+const CACHE_NAME = 'sigft-shell-2026-10-21-ft04-v2';
 const ROOT = new URL('./', self.location.href);
 const SHELL_URL = new URL('index.html', ROOT).href;
 const ASSETS = ['index.html','manifest.webmanifest','sigft-icon-180.png','sigft-icon-192.png','sigft-icon-512.png','sigft-icon-maskable-512.png'].map(path => new URL(path, ROOT).href);
