@@ -1,7 +1,7 @@
 {
   "id": "/sigft-app/",
-  "name": "SIGFT 2.0",
-  "short_name": "SIGFT",
+  "name": "FT 04",
+  "short_name": "FT 04",
   "description": "Sistema Integrado de Gestão da Força Tática",
   "lang": "pt-BR",
   "start_url": "/sigft-app/",
